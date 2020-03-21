@@ -14,7 +14,9 @@ The Lancet [Real estimates of mortality following COVID-19 infection](https://ww
 
 ![Global COVID-19 mortality rates (Feb 11 to March 1, 2020) Current WHO mortality estimates (total deaths divided by total confirmed cases), and mortality rates calculated by dividing the total number of deaths by the total number of confirmed cases 14 days previously.](Lancet1-Figure1-org.jpg)
 
-Here is the same graph with more dates added.
+and here is the same graph (almost. I don't have the WHO estimates) with more dates added. The source code to produce this figure is in `lancet1.py`.
+
+![Global COVID-19 mortality rates](Lancet1-Figure1-new.png)
 
 
 
