@@ -24,7 +24,7 @@ if __name__ == "__main__":
             dates.append(deaths.index[i])
             ratio.append(float(deaths[i]) / confirmed[j] * 100)
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize = [12, 5])
     ax.plot(dates, ratio, 'bo-')
 
     ax.set_ylabel('Mortality rate (%)')
@@ -34,4 +34,3 @@ if __name__ == "__main__":
     ax.set_xticks(dates[::5])
 
     plt.savefig('Lancet1-Figure1-new.png')
-    plt.show()
