@@ -5,6 +5,8 @@ import pandas as pd
 
 import os
 
+img_path = 'covid-19-graphs.wiki/img/'
+
 def check_for_CSSE_repo():
     msg = """Cannot find the COVID-19 repository!
 

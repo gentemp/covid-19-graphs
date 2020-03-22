@@ -33,4 +33,4 @@ if __name__ == "__main__":
     ax.set_xlabel('WHO report date')
     ax.set_xticks(dates[::5])
 
-    plt.savefig('Lancet1-Figure1-new.png')
+    plt.savefig(data.img_path + 'Lancet1-Figure1-new.png')
