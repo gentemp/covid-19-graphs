@@ -35,8 +35,6 @@ def run():
     ax.set_xlabel('WHO report date')
     ax.set_xticks(dates[::5])
 
-    today = dt.strftime(dt.today(), "%Y-%m-%d") 
-    plt.savefig(data.img_path + 'Lancet1-Figure1-%s.png' % (today))
     plt.savefig(data.img_path + 'Lancet1-Figure1-latest.png')
 
 if __name__ == "__main__":

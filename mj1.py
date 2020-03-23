@@ -47,8 +47,6 @@ def run_for(country, reference = None):
 
     ax.set_title(country)
 
-    today = dt.strftime(dt.today(), "%Y-%m-%d") 
-    plt.savefig(data.img_path + 'MotherJones1-Figure-%s-%s.png' % (country, today))
     plt.savefig(data.img_path + 'MotherJones1-Figure-%s-latest.png' % (country.replace(' ', '-')))
 
 def run():
@@ -59,7 +57,11 @@ def run():
         'Canada', 'Spain', 'Sweden',
         'Switzerland', 'United Kingdom', 'United States',
 
-        'Denmark', 'Norway', ]
+        'Iceland', 'Norway', 'Finland',
+        'Estonia', 'Latvia', 'Denmark',
+        'Lithuania', 'Ireland', 'Netherlands',
+        'Poland', 'Belgium', 'Czechia',
+        'Austria', 'Portugal', 'Greece', ]
     for country in countries:
         run_for(country, reference)
 
