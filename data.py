@@ -37,7 +37,16 @@ def get_country_time_series(dataset, country):
     ArgumentError is raised."""
 
     df = get_dataframe(dataset)
-    return df[df['Country/Region'] == country]
+
+    # a special case for the United States
+    if country == "United States":
+        country = "US"
+    df = df[df['Country/Region'] == country]
+
+    # All of these columns become irrelevant once we've filtered out the Country
+    df = df.drop(['Province/State', 'Country/Region', 'Lat', 'Long'], axis = 'columns')
+
+    return df.sum()
 
 def get_total_time_series(dataset):
     """Returns a DataFrame with the summed number of cases from <dataset> per date.

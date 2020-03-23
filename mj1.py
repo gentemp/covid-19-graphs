@@ -10,10 +10,9 @@ from datetime import datetime as dt
 REFERENCE_COUNTRY = 'Italy'
 
 def align_data(df, n = None):
-    row = df.to_numpy()[0]
+    values = df.to_numpy()
 
     result = []
-    _, values = row[:4], row[4:]
     if n is None:
         result = [int(x) for x in values]
 
@@ -50,12 +49,17 @@ def run_for(country, reference = None):
 
     today = dt.strftime(dt.today(), "%Y-%m-%d") 
     plt.savefig(data.img_path + 'MotherJones1-Figure-%s-%s.png' % (country, today))
-    plt.savefig(data.img_path + 'MotherJones1-Figure-%s-latest.png' % (country))
+    plt.savefig(data.img_path + 'MotherJones1-Figure-%s-latest.png' % (country.replace(' ', '-')))
 
 def run():
     reference = data.get_country_time_series('confirmed', REFERENCE_COUNTRY)
 
-    countries = ['Sweden']
+    countries = [
+        'France', 'Germany',
+        'Canada', 'Spain', 'Sweden',
+        'Switzerland', 'United Kingdom', 'United States',
+
+        'Denmark', 'Norway', ]
     for country in countries:
         run_for(country, reference)
 
