@@ -25,8 +25,8 @@ def get_dataframe(dataset):
     if dataset.lower() not in ['confirmed', 'deaths', 'recovered']:
         raise ArgumentError("%s is not a valid dataset. Please use 'confirmed', 'deaths' or 'recovered'." % (dataset))
 
-    base_path = 'COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-'
-    filename = base_path + dataset.title() + '.csv'
+    base_path = 'COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_'
+    filename = base_path + dataset.lower() + '_global.csv'
 
     return pd.read_csv(filename)
 
