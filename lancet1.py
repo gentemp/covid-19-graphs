@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 from datetime import datetime as dt
 
-def run():
+def run(close = True):
     confirmed = data.get_total_time_series('confirmed')
     deaths = data.get_total_time_series('deaths')
 
@@ -36,7 +36,9 @@ def run():
     ax.set_xticks(dates[::5])
 
     plt.savefig(data.img_path + 'Lancet1-Figure1-latest.png')
+    if close:
+        plt.close(fig)
 
 if __name__ == "__main__":
-    run()
+    run(close = False)
     plt.show()

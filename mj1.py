@@ -26,7 +26,7 @@ def align_data(df, n = None):
 
     return result
 
-def run_for(country, reference = None):
+def run_for(close, country, reference = None):
     df_ref = reference
     if reference is None:
         df_ref = data.get_country_time_series('confirmed', REFERENCE_COUNTRY)
@@ -69,8 +69,10 @@ def run_for(country, reference = None):
     ax.set_title(country)
 
     plt.savefig(data.img_path + 'MotherJones1-Figure-%s-latest.png' % (country.replace(' ', '-')))
+    if close:
+        plt.close(fig)
 
-def run(countries = None):
+def run(close = True, countries = None):
     reference = data.get_country_time_series('confirmed', REFERENCE_COUNTRY)
 
     if countries is None:
@@ -85,8 +87,8 @@ def run(countries = None):
             'Poland', 'Belgium', 'Czechia',
             'Austria', 'Portugal', 'Greece', ]
     for country in countries:
-        run_for(country, reference)
+        run_for(close, country, reference)
 
 if __name__ == "__main__":
-    run()
+    run(close = False)
     plt.show()
