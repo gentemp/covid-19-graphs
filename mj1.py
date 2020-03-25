@@ -64,7 +64,8 @@ def run_for(close, country, reference = None):
     ax.set_yticks(yticks)
 
     # update the labels to multiples of reference country
-    ax.set_yticklabels(['%dx' % (x) for x in range(0, tick, step)])
+    ax.set_yticklabels(['%dx' % (x) for x in range(0, tick+ step, step)])
+    ax.grid(True, axis = 'y')
 
     ax.set_title(country)
 
@@ -90,5 +91,5 @@ def run(close = True, countries = None):
         run_for(close, country, reference)
 
 if __name__ == "__main__":
-    run(close = False)
+    run(close = False, countries = ['United States'])
     plt.show()
