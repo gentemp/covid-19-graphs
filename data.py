@@ -62,5 +62,13 @@ def get_total_time_series(dataset):
     # and return the sum of all the others. 
     return df.sum()
 
+def get_populations(countries):
+    """Returns a DataFrame with a population count for <countries>."""
+    # CSV was created using data from Worldometer 2020-03-25
+    # https://www.worldometers.info/world-population/population-by-country/
+
+    df = pd.read_csv('population.csv')
+    return df[df['Country'].isin(countries)]
+
 if __name__ == "__main__":
     check_for_CSSE_repo()
