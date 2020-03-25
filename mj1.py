@@ -45,23 +45,45 @@ def run_for(country, reference = None):
     
     ax.set_xlabel('Days Since Total Cases > 100')
 
+    # adjust the y scale to reference country multiples
+    # [0x, 20x, 40x, ... , 200x, ... NNNx]
+    # since the scale for Italy has grown quite a lot past
+    # the 200x mark we'll have to calculate a suitable
+    # stop value based on the highest value in the series
+    unit_val, max_val = rows_ref[0], max(rows_ref)
+    yticks = []
+    curr_val, step, tick = 0, 20, 0
+    while curr_val < max_val:
+        yticks.append(curr_val)
+
+        tick += step
+        curr_val = unit_val * tick
+
+    # add that last tick to go one above the max value
+    yticks.append(curr_val)
+    ax.set_yticks(yticks)
+
+    # update the labels to multiples of reference country
+    ax.set_yticklabels(['%dx' % (x) for x in range(0, tick, step)])
+
     ax.set_title(country)
 
     plt.savefig(data.img_path + 'MotherJones1-Figure-%s-latest.png' % (country.replace(' ', '-')))
 
-def run():
+def run(countries = None):
     reference = data.get_country_time_series('confirmed', REFERENCE_COUNTRY)
 
-    countries = [
-        'France', 'Germany',
-        'Canada', 'Spain', 'Sweden',
-        'Switzerland', 'United Kingdom', 'United States',
+    if countries is None:
+        countries = [
+            'France', 'Germany',
+            'Canada', 'Spain', 'Sweden',
+            'Switzerland', 'United Kingdom', 'United States',
 
-        'Iceland', 'Norway', 'Finland',
-        'Estonia', 'Latvia', 'Denmark',
-        'Lithuania', 'Ireland', 'Netherlands',
-        'Poland', 'Belgium', 'Czechia',
-        'Austria', 'Portugal', 'Greece', ]
+            'Iceland', 'Norway', 'Finland',
+            'Estonia', 'Latvia', 'Denmark',
+            'Lithuania', 'Ireland', 'Netherlands',
+            'Poland', 'Belgium', 'Czechia',
+            'Austria', 'Portugal', 'Greece', ]
     for country in countries:
         run_for(country, reference)
 
