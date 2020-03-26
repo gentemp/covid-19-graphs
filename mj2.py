@@ -59,7 +59,7 @@ def run_for(close, country, pop, reference = None, reference_pop = None):
             linestyle = '--', colors = 'r')
 
     ax.text(len(rows) - 1, 0.85,
-            "Day %d\n%.1f Deaths per Million" % (len(rows), rows[-1]/pop*1000000.0),
+            "Day %d\n%.1f Deaths per Million" % (len(rows) - 1, rows[-1]/pop*1000000.0),
             horizontalalignment = 'center',
             color = 'r', fontweight = 'bold',
             transform = ax.get_xaxis_transform())
@@ -100,13 +100,13 @@ def run(close = True, countries = None):
         countries = [
             'France', 'Germany',
             'Canada', 'Spain', 'Sweden',
-            'Switzerland', 'United Kingdom', 'United States', ]
+            'Switzerland', 'United Kingdom', 'United States',
 
-            #'Iceland', 'Norway', 'Finland',
-            #'Estonia', 'Latvia', 'Denmark',
-            #'Lithuania', 'Ireland', 'Netherlands',
-            #'Poland', 'Belgium', 'Czechia',
-            #'Austria', 'Portugal', 'Greece', ]
+            'Iceland', 'Norway', 'Finland',
+            'Estonia', 'Latvia', 'Denmark',
+            'Lithuania', 'Ireland', 'Netherlands',
+            'Poland', 'Belgium', 'Czechia',
+            'Austria', 'Portugal', 'Greece', ]
     df_pop = data.get_populations(countries + [REFERENCE_COUNTRY, ])
     for country in countries:
         pop = int(df_pop[df_pop['Country'] == country].Population)
