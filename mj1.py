@@ -38,10 +38,14 @@ def run_for(close, country, reference = None):
     rows = align_data(df, n = 100)
     rows_ref = align_data(df_ref, n = 100)
 
+    # adjust the series to multiples of the first day
+    adj_rows = [v/rows[0] for v in rows]
+    adj_rows_ref = [v/rows_ref[0] for v in rows_ref]
+
     fig, ax = plt.subplots()
 
-    ax.plot(rows_ref, color = 'black', linestyle = '--')
-    ax.plot(rows, color = 'red', marker ='o')
+    ax.plot(adj_rows_ref, color = 'black', linestyle = '--')
+    ax.plot(adj_rows, color = 'red', marker ='o')
     
     ax.set_xlabel('Days Since Total Cases > 100')
 
@@ -50,21 +54,19 @@ def run_for(close, country, reference = None):
     # since the scale for Italy has grown quite a lot past
     # the 200x mark we'll have to calculate a suitable
     # stop value based on the highest value in the series
-    unit_val, max_val = rows_ref[0], max(rows_ref)
+    max_val = max(adj_rows + adj_rows_ref)
     yticks = []
-    curr_val, step, tick = 0, 20, 0
+    curr_val, step = 0, 20
     while curr_val < max_val:
         yticks.append(curr_val)
-
-        tick += step
-        curr_val = unit_val * tick
+        curr_val += step
 
     # add that last tick to go one above the max value
     yticks.append(curr_val)
     ax.set_yticks(yticks)
 
     # update the labels to multiples of reference country
-    ax.set_yticklabels(['%dx' % (x) for x in range(0, tick+ step, step)])
+    ax.set_yticklabels(['%dx' % (x) for x in yticks])
     ax.grid(True, axis = 'y')
 
     ax.set_title(country)
@@ -91,5 +93,5 @@ def run(close = True, countries = None):
         run_for(close, country, reference)
 
 if __name__ == "__main__":
-    run(close = False, countries = ['United States'])
+    run(close = False)
     plt.show()
