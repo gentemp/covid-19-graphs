@@ -44,14 +44,13 @@ def run_for(close, country, pop, reference = None, reference_pop = None):
     rows = align_data(df, pop, n = 1)
     rows_ref = align_data(df_ref, ref_pop, n = 1)
 
-    # we'll have to adjust the country values to match
-    # the reference country
-    m = ref_pop / pop
-    adj_rows = [m * x for x in rows]
+    # adjust the series to multiples of the first day
+    adj_rows = [v/rows[0] for v in rows]
+    adj_rows_ref = [v/rows_ref[0] for v in rows_ref]
 
     fig, ax = plt.subplots()
 
-    ax.plot(rows_ref, color = 'black', linestyle = '--')
+    ax.plot(adj_rows_ref, color = 'black', linestyle = '--')
     ax.plot(adj_rows, color = 'red', marker ='o')
     
     try:
@@ -70,26 +69,25 @@ def run_for(close, country, pop, reference = None, reference_pop = None):
         pass
 
     ax.set_xlabel('Number of Days Since Day 0')
+    ax.set_ylabel('Growth In Number of Deaths Since Day 0')
 
     # adjust the y scale to reference-country multiples
     # [0x, 200x, 400x, ... , NNNx] since the scale for
     # Italy will grow we'll have to calculate a suitable
     # stop value based on the highest value in the series
-    unit_val, max_val = rows_ref[0], max(rows_ref)
+    max_val = max(adj_rows + adj_rows_ref)
     yticks = []
-    curr_val, step, tick = 0, 200, 0
+    curr_val, step = 0, 200
     while curr_val < max_val:
         yticks.append(curr_val)
-
-        tick += step
-        curr_val = unit_val * tick
+        curr_val += step
 
     # add that last tick to go one above the max value
     yticks.append(curr_val)
     ax.set_yticks(yticks)
 
     # update the labels to multiples of reference country
-    ax.set_yticklabels(['%dx' % (x) for x in range(0, tick+ step, step)])
+    ax.set_yticklabels(['%dx' % (x) for x in yticks])
     ax.grid(True, axis = 'y')
 
     ax.set_title(country)
