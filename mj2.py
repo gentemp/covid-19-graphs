@@ -54,15 +54,20 @@ def run_for(close, country, pop, reference = None, reference_pop = None):
     ax.plot(rows_ref, color = 'black', linestyle = '--')
     ax.plot(adj_rows, color = 'red', marker ='o')
     
-    ax.vlines(len(rows) - 1, 0, 0.8,
-            transform = ax.get_xaxis_transform(),
-            linestyle = '--', colors = 'r')
+    try:
+        ax.vlines(len(rows) - 1, 0, 0.8,
+                transform = ax.get_xaxis_transform(),
+                linestyle = '--', colors = 'r')
 
-    ax.text(len(rows) - 1, 0.85,
-            "Day %d\n%.1f Deaths per Million" % (len(rows) - 1, rows[-1]/pop*1000000.0),
-            horizontalalignment = 'center',
-            color = 'r', fontweight = 'bold',
-            transform = ax.get_xaxis_transform())
+        ax.text(len(rows) - 1, 0.85,
+                "Day %d\n%.1f Deaths per Million" % (len(rows) - 1, rows[-1]/pop*1000000.0),
+                horizontalalignment = 'center',
+                color = 'r', fontweight = 'bold',
+                transform = ax.get_xaxis_transform())
+
+    except IndexError:
+        # if we end up here it's because we haven't reached Day 0 yet
+        pass
 
     ax.set_xlabel('Number of Days Since Day 0')
 
