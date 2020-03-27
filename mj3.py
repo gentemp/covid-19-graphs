@@ -92,9 +92,9 @@ def run_for(close, country):
 def run(close = True, countries = None):
     if countries is None:
         countries = [
-            'Italy', 'France', 'Germany',
-            'Canada', 'Spain', 'Sweden',
-            'Switzerland', 'United Kingdom', 'United States', ]
+            'Italy', ] # 'France', 'Germany',
+            #'Canada', 'Spain', 'Sweden',
+            #'Switzerland', 'United Kingdom', 'United States', 
 
             #'Iceland', 'Norway', 'Finland',
             #'Estonia', 'Latvia', 'Denmark',
@@ -105,5 +105,5 @@ def run(close = True, countries = None):
         run_for(close, country)
 
 if __name__ == "__main__":
-    run(close = False, countries = ['Italy'])
+    run(close = False)
     plt.show()
