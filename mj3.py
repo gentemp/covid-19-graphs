@@ -70,7 +70,8 @@ def run_for(close, country, reference):
 
     fig, ax = plt.subplots(figsize = [14, 5])
     ax.plot(rows_ref, color = 'red', marker ='o')
-    ax.plot(rows, color = 'blue', marker ='o')
+    if country != reference:
+        ax.plot(rows, color = 'blue', marker ='o')
     ax.grid(True)
 
     ax.set_title(country)
