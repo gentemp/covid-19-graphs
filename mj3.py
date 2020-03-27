@@ -45,15 +45,18 @@ def rolling_average(values, dates, n):
     dn = int(n/2)
     return result, dates[dn:-dn]
 
-def run_for(close, country):
+def run_for(close, country, reference):
     df = data.get_country_time_series('deaths', country)
+    df_ref = data.get_country_time_series('deaths', reference)
 
     # get the timeseries of cumulative confirmed deaths
     # starting on the day of the first death
-    values, dates = align_data(df, n = 1)
+    values_ref, dates = align_data(df_ref, n = 1)
+    values, _ = align_data(df, n = 1)
 
     # calculate the rolling average of the change rate
-    rows, dates = rolling_average(*change_rate(values, dates), n = 4)
+    rows_ref, dates = rolling_average(*change_rate(values_ref, dates), n = 4)
+    rows, _ = rolling_average(*change_rate(values, _), n = 4)
 
     # calculate a date range to cover up to 2020-05-08
     _dates = []
@@ -65,8 +68,9 @@ def run_for(close, country):
     # adjust the dates to correct format
     #dates = [dt.strftime(dt.strptime(d, "%m/%d/%y"), "%b %d") for d in dates]
 
-    fig, ax = plt.subplots(figsize = [12, 5])
-    ax.plot(rows, color = 'red', marker ='o')
+    fig, ax = plt.subplots(figsize = [14, 5])
+    ax.plot(rows_ref, color = 'red', marker ='o')
+    ax.plot(rows, color = 'blue', marker ='o')
     ax.grid(True)
 
     ax.set_title(country)
@@ -92,9 +96,9 @@ def run_for(close, country):
 def run(close = True, countries = None):
     if countries is None:
         countries = [
-            'Italy', ] # 'France', 'Germany',
-            #'Canada', 'Spain', 'Sweden',
-            #'Switzerland', 'United Kingdom', 'United States', 
+            'Italy', 'France', 'Germany',
+            'Canada', 'Spain', 'Sweden',
+            'Switzerland', 'United Kingdom', 'United States', ]
 
             #'Iceland', 'Norway', 'Finland',
             #'Estonia', 'Latvia', 'Denmark',
@@ -102,7 +106,7 @@ def run(close = True, countries = None):
             #'Poland', 'Belgium', 'Czechia',
             #'Austria', 'Portugal', 'Greece', ]
     for country in countries:
-        run_for(close, country)
+        run_for(close, country, 'Italy')
 
 if __name__ == "__main__":
     run(close = False)
