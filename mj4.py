@@ -62,7 +62,7 @@ def extend_dates(dates, n = None):
         curr += timedelta(days = 1)
         result.append(dt.strftime(curr, "%m/%d/%y"))
 
-    return result
+    return [dt.strftime(dt.strptime(d, "%m/%d/%y"), "%b %d") for d in result]
 
 def run_for(close, country):
     df = data.get_country_time_series('deaths', country)
@@ -79,6 +79,13 @@ def run_for(close, country):
 
     # calcualate the percentage of change rate/total deaths
     _rows = [(r/v)*100 for r, v in zip(rows, _values)]
+
+    # we'll start on the first day > 0%
+    for i in range(len(_rows)):
+        if _rows[i] > 0:
+            _rows = _rows[i:]
+            dates = dates[i:]
+            break
 
     fig, ax = plt.subplots(figsize = [14, 5])
     ax.plot(_rows, color = 'red', marker ='o')
