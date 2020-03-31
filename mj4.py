@@ -52,6 +52,18 @@ def fit_a_line(values, deg = 2):
     x = np.linspace(0, len(values), len(values))
     return np.poly1d(np.polyfit(x, values, deg))
 
+def extend_dates(dates, n = None):
+    if n is None:
+        n = 7 # days
+
+    result = list(dates)
+    curr = dt.strptime(dates[-1], "%m/%d/%y")
+    for i in range(n):
+        curr += timedelta(days = 1)
+        result.append(dt.strftime(curr, "%m/%d/%y"))
+
+    return result
+
 def run_for(close, country):
     df = data.get_country_time_series('deaths', country)
 
@@ -69,22 +81,21 @@ def run_for(close, country):
     _rows = [(r/v)*100 for r, v in zip(rows, _values)]
 
     fig, ax = plt.subplots(figsize = [14, 5])
-    ax.plot(dates, _rows, color = 'red', marker ='o')
+    ax.plot(_rows, color = 'red', marker ='o')
     
+    _dates = extend_dates(dates, 7)
+
     p1 = fit_a_line(_rows, deg = 1)
-    p2 = fit_a_line(_rows, deg = 2)
-    p3 = fit_a_line(_rows, deg = 3)
-    t = np.linspace(0, len(_rows))
-    ax.plot(t, p1(t), color = '#ff0000', linestyle ='--')
-    ax.plot(t, p2(t), color = '#a00000', linestyle ='--')
-    ax.plot(t, p3(t), color = '#800000', linestyle ='--')
+    t = np.linspace(0, len(_dates), len(_dates))
+
+    ax.plot(_dates, p1(t), color = '#ff0000', linestyle ='--')
 
     ax.grid(True)
 
     ax.set_title(country)
 
     ax.set_yticklabels(['%d%%' % (x) for x in ax.get_yticks()])
-    ax.set_xticks(dates[::2])
+    ax.set_xticks(_dates[::2])
 
     plt.setp(ax.get_xticklabels(), rotation = 30)
 
