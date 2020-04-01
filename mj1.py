@@ -56,7 +56,7 @@ def run_for(close, country, reference = None):
     # stop value based on the highest value in the series
     max_val = max(adj_rows + adj_rows_ref)
     yticks = []
-    curr_val, step = 0, 20
+    curr_val, step = 0, 200
     while curr_val < max_val:
         yticks.append(curr_val)
         curr_val += step
