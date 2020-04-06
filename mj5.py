@@ -90,7 +90,7 @@ def run_for(close, country):
     fig, ax = plt.subplots(figsize = [14, 5])
     ax.plot(_rows, color = 'red', marker ='o')
     
-    _dates = extend_dates(dates, 7)
+    _dates = extend_dates(dates, 21)
 
     p1 = fit_a_line(_rows, deg = 1)
     t = np.linspace(0, len(_dates), len(_dates))
@@ -102,7 +102,7 @@ def run_for(close, country):
     ax.set_title(country)
 
     ax.set_yticklabels(['%d%%' % (x) for x in ax.get_yticks()])
-    ax.set_xticks(_dates[::2])
+    ax.set_xticks(_dates[::7])
 
     plt.setp(ax.get_xticklabels(), rotation = 30)
 
